@@ -141,6 +141,7 @@ const workerConfig = {
   plugins: [
     new WasmPackPlugin({
       crateDirectory: path.resolve(__dirname, "../mandelbrot"),
+      extraArgs: "--target web",
     }),
     workbox,
   ],
@@ -175,7 +176,7 @@ const workerConfig = {
     extensions: [".ts", ".js", ".wasm"],
   },
   output: { path: dist, filename: "worker.js" },
-  experiments: { syncWebAssembly: true },
+  experiments: { asyncWebAssembly: true },
   devtool: "source-map",
 };
 

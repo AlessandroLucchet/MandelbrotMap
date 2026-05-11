@@ -11,8 +11,10 @@ async function ensureOxipngInitialized() {
     oxipngInitialized = true;
   }
 }
-
-import("../../mandelbrot/pkg")
+import("../../mandelbrot/pkg").then(async (wasmModule) => {
+  await wasmModule.default();
+  return wasmModule;
+})
   .then(async (wasm) => {
     wasm.init();
 
