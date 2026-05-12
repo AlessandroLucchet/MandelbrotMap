@@ -9,7 +9,7 @@ const camelCase = require("lodash/camelCase");
 const fromPairs = require("lodash/fromPairs");
 const Dotenv = require("dotenv-webpack");
 const WorkboxPlugin = require("workbox-webpack-plugin");
-
+const isProd = process.env.NODE_ENV === "production";
 const dist = path.resolve(__dirname, "dist");
 
 function getBlogPostPlugins() {
@@ -64,7 +64,7 @@ const privacyPolicyPlugin = new HtmlWebpackPlugin({
 
 const blogPostPlugins = getBlogPostPlugins();
 
-const workbox = new WorkboxPlugin.GenerateSW({
+const workbox = isProd ? (new WorkboxPlugin.GenerateSW({
   clientsClaim: true,
   skipWaiting: true,
   cleanupOutdatedCaches: true,
@@ -74,7 +74,7 @@ const workbox = new WorkboxPlugin.GenerateSW({
       handler: "StaleWhileRevalidate",
     },
   ],
-});
+})):null;
 
 const appConfig = {
   entry: "./js/index.ts",
